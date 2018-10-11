@@ -1,0 +1,23 @@
+@font-face {
+        font-family: "Exo";
+        src: url("../fonts/Exo-Regular.otf");
+    }
+
+*{
+    font-family: "Exo";
+}
+.text-center{
+	text-align: center;
+}
+.text-white{
+	color: #fff;
+}
+.text-red{
+	color: #f44336 !important;
+}
+.sweet-bg{
+	background: -webkit-linear-gradient(0deg, #efa442 0%, #fce353 100%);
+}
+.text-right{
+	text-align: right;
+}
