@@ -12,7 +12,7 @@ var $$ = Dom7;
 
 // Init App
 var app = new Framework7({
-  id: 'io.framework7.quickbooking',
+  id: 'io.quickbooking',
   root: '#app',
   theme: 'md',
   language: 'en',
