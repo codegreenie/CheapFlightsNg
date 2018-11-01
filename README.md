@@ -1,1 +1,1 @@
-# CheapFlightsNg
+# QuickBookings Nigeria
