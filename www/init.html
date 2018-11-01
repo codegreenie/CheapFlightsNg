@@ -1,0 +1,191 @@
+        <div class="page" data-name="init">
+
+            <div class="navbar color-theme-orange">
+                <div class="navbar-inner">
+                    <div class="left">
+                        <a href="#" class="link icon-only">
+                            <i class="icon material-icons md-only">dehaze</i>
+                        </a>
+                    </div>
+                    <div class="title">Tickets</div>
+                    <div class="right">
+                        <a href="/searchpanel/" class="link icon-only">
+                            <i class="icon material-icons md-only">search</i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+              <div class="page-content sweet-bg">
+                
+                <div class="block">
+
+
+
+                  <h3>Airport</h3>
+
+                  <div class="row text-center">
+
+                    <div class="col" id="from-panel">
+                      <a href="/searchpanel/">
+                      <img src="imgs/airplane-take-off.png" style="min-width: 80px; max-width: 80px;">
+                      <h3 class="text-red" id="from-city-text">&nbsp;</h3>
+                      </a>
+                    </div>
+
+                    <div class="col" id="to-panel">
+                      <a href="/searchpanel2/">
+                      <img src="imgs/airplane-land.png" style="min-width: 80px; max-width: 80px;">
+                      <h3 class="text-red" id="to-city-text">&nbsp;</h3>
+                      </a>
+                    </div>
+
+                  </div>
+
+
+                  <input type='hidden' id="pushCalendar">
+
+                </div>
+
+
+                <div class="block bg-color-orange" style="padding: 10px 0px; margin-bottom:0px !important;">
+                  <h4 class="text-center text-white">Round Trip
+                      <input type="checkbox" name="demo-checkbox" value="Books" checked="checked"/>
+          
+                  </h4>
+
+                </div>
+
+
+
+                <div class="row bg-color-white">
+                    <div class="col">
+                      <div class="block">
+                      <span>Departure Date</span>
+                      <br>
+                      <strong id="departure-date">12 November, 2018</strong>
+                      
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="block">
+                      <span>Return Date</span>
+                      <br>
+                      <strong id="arrival-date">18 November, 2018</strong>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+                  <div class="row" style="margin-bottom:0px">
+                    <div class="col-50">
+                      <div class="block">
+
+                        <div>
+                        <img src="imgs/adult.png" style="max-width: 40px; float: left;">
+                        <strong>Adult</strong>
+                        </div>
+
+                        <br><br><br>
+
+                        <div>
+                         <img src="imgs/child.png" style="max-width: 40px; float: left;">
+                        <strong>Children 2 -12 years</strong>
+                        </div>
+
+                        <br><br><br>
+
+                        <div>
+                         <img src="imgs/baby.png" style="max-width: 40px; float: left;">
+                          <strong>Infants</strong>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                    <div class="col-50">
+                      <div class="block">
+                        
+
+                        <div class="stepper stepper-raised stepper-round stepper-init color-theme-orange">
+                          <div class="stepper-button-minus" id="dec-adult-passenger"></div>
+                          <div class="stepper-input-wrap">
+                            <input type="text" value="1" min="1" max="100" step="1" readonly id="adult-passenger-count">
+                          </div>
+                          <div class="stepper-button-plus" id="inc-adult-passenger"></div>
+                        </div>
+
+                        <br><br><br>
+
+                         <div class="stepper stepper-raised stepper-round stepper-init color-theme-orange">
+                          <div class="stepper-button-minus" id="dec-children-passenger"></div>
+                          <div class="stepper-input-wrap">
+                            <input type="text" value="1" min="1" max="100" step="1" readonly id="children-passenger-count">
+                          </div>
+                          <div class="stepper-button-plus" id="inc-children-passenger"></div>
+                        </div>
+
+                        <br><br><br>
+
+                         <div class="stepper stepper-raised stepper-round stepper-init color-theme-orange">
+                          <div class="stepper-button-minus" id="dec-infant-passenger"></div>
+                          <div class="stepper-input-wrap">
+                            <input type="text" value="1" min="1" max="100" step="1" readonly id="infant-passenger-count">
+                          </div>
+                          <div class="stepper-button-plus" id="inc-infant-passenger"></div>
+                        </div>
+
+
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+                <div class="block bg-color-orange" style="margin-bottom:0px !important;">
+                   
+                   <div class="row">
+                    <div class="col">
+                      <div class="block">
+                      <button class="col button button-outline button-round color-white" id="economy-btn">Economy</button>
+                      </div>
+                    </div>
+                    <div class="col">
+                      <div class="block">
+                      <button class="col button button-outline button-round color-white" id="business-btn" style="border:none;">Business</button>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="block">
+                   
+                      <a href="/searching/">
+                      <button class="col button button-outline button-round color-white" id="search-flight-btn">
+                        Search
+                      </button>
+                    </a>
+                      
+                </div>
+
+
+
+
+
+
+
+
+
+              </div>
+
+           </div>
+
+
