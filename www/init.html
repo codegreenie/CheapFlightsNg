@@ -63,15 +63,16 @@
                       <div class="block">
                       <span>Departure Date</span>
                       <br>
-                      <strong id="departure-date">12 November, 2018</strong>
-                      
+                      <strong id="departure-date">Tue Nov 20 2018</strong>
+                      <input type="hidden" id="hidden-departure-date" value="2018-11-20">
                       </div>
                     </div>
                     <div class="col">
                       <div class="block">
                       <span>Return Date</span>
                       <br>
-                      <strong id="arrival-date">18 November, 2018</strong>
+                      <strong id="arrival-date">Sun Nov 25 2018</strong>
+                      <input type="hidden" id="hidden-arrival-date" value="2018-11-25">
                       </div>
                     </div>
                   </div>
@@ -112,7 +113,7 @@
                         <div class="stepper stepper-raised stepper-round stepper-init color-theme-orange">
                           <div class="stepper-button-minus" id="dec-adult-passenger"></div>
                           <div class="stepper-input-wrap">
-                            <input type="text" value="1" min="1" max="100" step="1" readonly id="adult-passenger-count">
+                            <input type="text" value="1" min="1" max="8" step="1" readonly id="adult-passenger-count">
                           </div>
                           <div class="stepper-button-plus" id="inc-adult-passenger"></div>
                         </div>
@@ -122,7 +123,7 @@
                          <div class="stepper stepper-raised stepper-round stepper-init color-theme-orange">
                           <div class="stepper-button-minus" id="dec-children-passenger"></div>
                           <div class="stepper-input-wrap">
-                            <input type="text" value="1" min="1" max="100" step="1" readonly id="children-passenger-count">
+                            <input type="text" value="0" min="0" max="5" step="1" readonly id="children-passenger-count">
                           </div>
                           <div class="stepper-button-plus" id="inc-children-passenger"></div>
                         </div>
@@ -132,7 +133,7 @@
                          <div class="stepper stepper-raised stepper-round stepper-init color-theme-orange">
                           <div class="stepper-button-minus" id="dec-infant-passenger"></div>
                           <div class="stepper-input-wrap">
-                            <input type="text" value="1" min="1" max="100" step="1" readonly id="infant-passenger-count">
+                            <input type="text" value="0" min="0" max="3" step="1" readonly id="infant-passenger-count">
                           </div>
                           <div class="stepper-button-plus" id="inc-infant-passenger"></div>
                         </div>
@@ -168,11 +169,11 @@
 
                 <div class="block">
                    
-                      <a href="/searching/">
+                      
                       <button class="col button button-outline button-round color-white" id="search-flight-btn">
                         Search
                       </button>
-                    </a>
+                 
                       
                 </div>
 

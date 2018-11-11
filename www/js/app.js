@@ -73,6 +73,9 @@ var mainView = app.views.create('.view-main', {
 
    var pushMyCity = function(theCityCode){
 
+      var splitForSkyScanner = theCityCode.split(" ")[0];
+      window.localStorage.setItem("skyscanner_from_terminal", splitForSkyScanner);
+
         window.localStorage.setItem("from_terminal", theCityCode);
         app.preloader.show();
 
@@ -84,6 +87,9 @@ var mainView = app.views.create('.view-main', {
 
 
   var pushMyCity2 = function(theCityCode){
+
+        var splitForSkyScanner = theCityCode.split(" ")[0];
+      window.localStorage.setItem("skyscanner_to_terminal", splitForSkyScanner);
 
         window.localStorage.setItem("to_terminal", theCityCode);
         app.preloader.show();
@@ -131,12 +137,14 @@ $$(document).on('page:init', '.page[data-name="results"]', function (e) {
 
   $$("#search-title-heading").html(fromTerminal.substr(0,4) + " - " + toTerminal.substr(0,4));
   
+  var serverResults = localStorage.getItem("server_deployment_results");
+  setTimeout(function(){
+    $$("#download-results").html(serverResults);
+  }, 3000);
+  
   
 
-/*
-      $$("#from-terminal-location").html(fromTerminal);
-      $$("#to-terminal-location").html(toTerminal);
-*/
+
 
 });
 
@@ -195,15 +203,17 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
         $$("#from-city-text").html(localStorage.getItem("from_terminal"));
         $$("#to-city-text").html(localStorage.getItem("to_terminal"));
 
-
+       /* var now = new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        var oneWeek = new Date().setDate(today.getDate() + 7);*/
 
               var departureDate = app.calendar.create({
 
-              inputEl : "#departure-date",
+              inputEl : "#departure-date, #hidden-departure-date",
               openIn: 'customModal',
               header: true,
               footer: true,
-              dateFormat: 'dd MM yyyy',
+              dateFormat: 'yyyy-mm-dd',
               on: {
                 close: function(){
                   var selectedArrivalDate = departureDate.getValue();
@@ -227,11 +237,11 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
 
              var arrivalDate = app.calendar.create({
 
-              inputEl : "#arrival-date",
+              inputEl : "#arrival-date, #hidden-arrival-date",
               openIn: 'customModal',
               header: true,
               footer: true,
-              dateFormat: 'dd MM yyyy',
+              dateFormat: 'yyyy-mm-dd',
                on: {
                 close: function(){
                   var selectedArrivalDate = arrivalDate.getValue();
@@ -284,7 +294,7 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
 
           $$("#economy-btn").on("click", function(){
 
-            localStorage.setItem("flight_class", "Economy");
+            localStorage.setItem("flight_class", "economy");
 
               $$("#economy-btn").css({
                 "border" : "solid 2px #fff"
@@ -301,7 +311,7 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
 
            $$("#business-btn").on("click", function(){
 
-            localStorage.setItem("flight_class", "Business");
+            localStorage.setItem("flight_class", "business");
 
               $$("#business-btn").css({
                 "border" : "solid 2px #fff"
@@ -314,10 +324,54 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
           });
 
 
+
 $$("#search-flight-btn").on("click", function(){
-        app.request.post("https://quickbookingng.com/skyscanner/live_flight_search.php", {}, function(successData){
+
+
+
+  app.preloader.show();
+        app.request.post("https://quickbookingng.com/skyscanner/live_flight_search.php", 
+          {
+            origin_place : window.localStorage.getItem("skyscanner_from_terminal"),
+            destination_place : window.localStorage.getItem("skyscanner_to_terminal"),
+            outbound_date : $$("#hidden-departure-date").val(),
+            inbound_date : $$("#hidden-arrival-date").val(),
+            adults : localStorage.getItem("adult_passenger_count"),
+            children : localStorage.getItem("children_passenger_count"),
+            infants : localStorage.getItem("infant_passenger_count"),
+            cabin_class : localStorage.getItem("flight_class")
+          },
+           function(successData){
 
         console.log(successData);
+
+        var splitLocationURL = successData.split("/");
+        console.log(splitLocationURL[7]);
+
+        setTimeout(pushPolls(splitLocationURL[7]), 1000);
+
+        function pushPolls(theSessionKey){
+
+
+
+            app.request.post("https://quickbookingng.com/skyscanner/poll_results.php", {
+              "my_session_key" : theSessionKey
+            }, function(receivedData){
+
+              console.log(receivedData);
+              window.localStorage.setItem("server_deployment_results", receivedData);
+              setTimeout(function(){
+                mainView.router.navigate("/results/");
+                app.preloader.hide();
+              }, 4000);
+
+                
+            }, function(xhr, status){
+                  app.preloader.hide();
+                  app.dialog.alert("error in comms");
+            });
+
+        }
 
     }, function(failData){
 
