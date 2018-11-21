@@ -71,18 +71,44 @@ var mainView = app.views.create('.view-main', {
 
 /* Greenie defined functions */
 
+
+function showNylon(){
+
+  $$(".nylon").show();
+
+}
+
+function hideNylon(){
+
+  $$(".nylon").hide();
+
+}
+
+function showNylons(){
+
+  $$(".nylons").show();
+
+}
+
+function hideNylons(){
+
+  $$(".nylons").hide();
+
+}
+
+
    var pushMyCity = function(theCityCode){
 
       var splitForSkyScanner = theCityCode.split(" ")[0];
       window.localStorage.setItem("skyscanner_from_terminal", splitForSkyScanner);
 
         window.localStorage.setItem("from_terminal", theCityCode);
-        app.preloader.show();
+        showNylons();
 
         setTimeout(function(){
+        hideNylons();
         mainView.router.navigate("/init/");
-        app.preloader.hide();
-        }, 500);
+        }, 3000);
     }
 
 
@@ -92,12 +118,12 @@ var mainView = app.views.create('.view-main', {
       window.localStorage.setItem("skyscanner_to_terminal", splitForSkyScanner);
 
         window.localStorage.setItem("to_terminal", theCityCode);
-        app.preloader.show();
+        showNylons();
 
         setTimeout(function(){
         mainView.router.navigate("/init/");
-        app.preloader.hide();
-        }, 500);
+        hideNylons();
+        }, 3000);
     }
 
 
@@ -105,46 +131,34 @@ var mainView = app.views.create('.view-main', {
 
 
 
-$$(document).on('page:init', '.page[data-name="searching"]', function (e) {
-
-  var fromTerminal = localStorage.getItem("from_terminal");
-  var toTerminal = localStorage.getItem("to_terminal");
-
-
-  $$("#search-title").html(fromTerminal.substr(0,4) + " - " + toTerminal.substr(0,4));
-  
-      setTimeout(function(){
-        
-        mainView.router.navigate('/results/');
-        
-      }, 5000);
-
-
-      $$("#from-terminal-location").html(fromTerminal);
-      $$("#to-terminal-location").html(toTerminal);
-});
-
 
 
 
 
 
 $$(document).on('page:init', '.page[data-name="results"]', function (e) {
-
+showNylon();
   var fromTerminal = localStorage.getItem("from_terminal");
   var toTerminal = localStorage.getItem("to_terminal");
 
 
   $$("#search-title-heading").html(fromTerminal.substr(0,4) + " - " + toTerminal.substr(0,4));
   
-  var serverResults = localStorage.getItem("server_deployment_results");
+  
   setTimeout(function(){
-    $$("#download-results").html(serverResults);
-  }, 3000);
+    var serverResults = localStorage.getItem("server_deployment_results");
+    if(serverResults == "<div class='block accordion-list custom-accordion'></div>" || serverResults == "" || serverResults == " "){
+      $$("#download-results").html("<img src='imgs/warning.png' style='margin:30% auto 1%; display:block; max-width: 300px;'><h2>No results found!</h2> <a href='/init/'><button class='col button button-outline button-round color-orange'>Retry Search</button></a>").addClass('text-center');
+      hideNylon();
+    }
+    else{
+      $$("#download-results").html(serverResults);
+      hideNylon();
+    }
+    
+  }, 8000);
   
   
-
-
 
 });
 
@@ -156,17 +170,20 @@ $$(document).on('page:init', '.page[data-name="results"]', function (e) {
 
 
 $$(document).on('page:init', '.page[data-name="searchpanel"]', function (e) {
-  
-    app.preloader.show();
+  showNylon();
     
     app.request.post("https://quickbookingng.com/app/assets/fetch_all.php", {}, function(successData){
 
-        app.preloader.hide();
+        hideNylon();
         $$(".searchbar-found").html(successData);
+        setTimeout(function(){
+          $$(".open-my-searchbar").trigger("click");
+        }, 1000);
+        
 
     }, function(failData){
 
-        app.preloader.hide();
+        hideNylon();
         app.dialog.alert("Connection to the server failed.");
 
     });
@@ -179,16 +196,19 @@ $$(document).on('page:init', '.page[data-name="searchpanel"]', function (e) {
 
 $$(document).on('page:init', '.page[data-name="searchpanel2"]', function (e) {
   
-    app.preloader.show();
+    showNylon();
     
     app.request.post("https://quickbookingng.com/app/assets/fetch_all2.php", {}, function(successData){
 
-        app.preloader.hide();
+        hideNylon();
         $$(".searchbar-found").html(successData);
+        setTimeout(function(){
+          $$(".open-my-searchbar").trigger("click");
+        }, 1000);
 
     }, function(failData){
 
-        app.preloader.hide();
+        hideNylon();
         app.dialog.alert("Connection to the server failed.");
 
     });
@@ -199,21 +219,123 @@ $$(document).on('page:init', '.page[data-name="searchpanel2"]', function (e) {
 
 
 $$(document).on('page:init', '.page[data-name="init"]', function (e) {
-  
+
+  hideNylon();
+
+  setTimeout(function(){
+
         $$("#from-city-text").html(localStorage.getItem("from_terminal"));
         $$("#to-city-text").html(localStorage.getItem("to_terminal"));
 
-       /* var now = new Date();
-        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        var oneWeek = new Date().setDate(today.getDate() + 7);*/
+
+        $$("#departure-date").text(window.localStorage.getItem("departure_date_string"));
+        $$("#arrival-date").text(window.localStorage.getItem("arrival_date_string"));
+
+        
+
+        if($$("#hidden-departure-date").val() == "" || $$("#hidden-arrival-date").val() == ""){
+
+            $$("#hidden-departure-date").val(localStorage.getItem("hidden_departure_date"));
+            $$("#hidden-arrival-date").val(localStorage.getItem("hidden_arrival_date"));
+        }
+
+        if(localStorage.getItem("flight_class") == "economy"){
+          $$("#economy-btn").addClass("cabin-class-style");
+        }
+        else{
+          $$("#business-btn").addClass("cabin-class-style");
+        }
+
+
+        $$("#adult-passenger-count").val(localStorage.getItem("adult_passenger_count"));
+        $$("#children-passenger-count").val(localStorage.getItem("children_passenger_count"));
+        $$("#infant-passenger-count").val(localStorage.getItem("infant_passenger_count"));
+    }, 500);    
+
+        $$("input[name='trip_type']").on("change", function(){
+          var tripType = $$("input[name='trip_type']:checked").val();
+          
+          if(tripType == "one_way"){
+            $$("#return-date-pack").hide();
+            $$("#hidden-arrival-date").val("");
+          }
+          else{
+            $$("#return-date-pack").show();
+            setTimeout(function(){
+            var miniMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+                var psp = $$("#arrival-date").text();
+                splitpsp = psp.split(" ");
+                var monthIndex;
+
+                 for (var i = 0; i < miniMonths.length; i++) {
+                   if(miniMonths[i] == splitpsp[1]){
+                      monthIndex = i + 1;
+                      break;
+                   }
+              }
+                var joinDate = splitpsp[3] + "-" + monthIndex + "-" + splitpsp[2];
+                $$("#hidden-arrival-date").val(joinDate);
+            },1000);
+
+            
+          }
+            
+        });
+       
+
+
+       var now = new Date();
+
+
+          var arrivalDate = app.calendar.create({
+
+              inputEl : "#arrival-date, #hidden-arrival-date",
+              openIn: 'customModal',
+              header: true,
+              headerPlaceholder : 'Arrival Date',
+              closeOnSelect : true,
+              footer: false,
+              dateFormat: 'yyyy-mm-dd',
+                disabled: {
+                  from: new Date(1950, 1, 1),
+                  to: new Date(now.getFullYear(), now.getMonth(), now.getDate())
+              },
+               on: {
+                close: function(){
+                  var selectedArrivalDate = arrivalDate.getValue();
+                  const parseToArray = Object.values(selectedArrivalDate);
+                  for (const passd of parseToArray) {
+                      console.log(passd);
+                      $$("#arrival-date").text(passd);
+                 }
+
+                  var newString =  $$("#arrival-date").text();
+                  var cutString = newString.substr(0, 16);
+                  $$("#arrival-date").text(cutString);
+
+                  //store custring in localStorage for future reference
+                  window.localStorage.setItem("arrival_date_string", cutString);
+                
+                }
+              }
+
+            });
+     
 
               var departureDate = app.calendar.create({
 
               inputEl : "#departure-date, #hidden-departure-date",
               openIn: 'customModal',
               header: true,
-              footer: true,
+              headerPlaceholder : 'Departure Date',
+              closeOnSelect : true,
+              footer: false,
               dateFormat: 'yyyy-mm-dd',
+               disabled: {
+                  from: new Date(1950, 1, 1),
+                  to: new Date(now.getFullYear(), now.getMonth(), now.getDate())
+              },
               on: {
                 close: function(){
                   var selectedArrivalDate = departureDate.getValue();
@@ -227,6 +349,15 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
                   var newString =  $$("#departure-date").text();
                   var cutString = newString.substr(0, 16);
                   $$("#departure-date").text(cutString);
+
+                  //store custring in localStorage for future reference
+                  window.localStorage.setItem("departure_date_string", cutString);
+
+                  var tripType = $$("input[name='trip_type']:checked").val();
+                  if(tripType == "round_trip"){
+                    arrivalDate.open();
+                  }
+                  
                 
                 }
               }
@@ -234,33 +365,9 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
             });
 
 
-
-             var arrivalDate = app.calendar.create({
-
-              inputEl : "#arrival-date, #hidden-arrival-date",
-              openIn: 'customModal',
-              header: true,
-              footer: true,
-              dateFormat: 'yyyy-mm-dd',
-               on: {
-                close: function(){
-                  var selectedArrivalDate = arrivalDate.getValue();
-                  const parseToArray = Object.values(selectedArrivalDate);
-                  for (const passd of parseToArray) {
-                      
-                      console.log(passd);
-                      $$("#arrival-date").text(passd);
-                 }
-
-                  var newString =  $$("#arrival-date").text();
-                  var cutString = newString.substr(0, 16);
-                  $$("#arrival-date").text(cutString);
-                
-                }
-              }
-
-            });
-
+             
+              
+           
 
 
             $$("#dec-adult-passenger, #inc-adult-passenger").on("click", function(){
@@ -295,14 +402,8 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
           $$("#economy-btn").on("click", function(){
 
             localStorage.setItem("flight_class", "economy");
-
-              $$("#economy-btn").css({
-                "border" : "solid 2px #fff"
-              });
-
-              $$("#business-btn").css({
-                "border" : "none"
-              });
+              $$("#economy-btn").addClass("cabin-class-style");
+              $$("#business-btn").removeClass("cabin-class-style");
 
           });
 
@@ -312,14 +413,8 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
            $$("#business-btn").on("click", function(){
 
             localStorage.setItem("flight_class", "business");
-
-              $$("#business-btn").css({
-                "border" : "solid 2px #fff"
-              });
-
-              $$("#economy-btn").css({
-                "border" : "none"
-              });
+            $$("#economy-btn").removeClass("cabin-class-style");
+            $$("#business-btn").addClass("cabin-class-style");
 
           });
 
@@ -327,9 +422,9 @@ $$(document).on('page:init', '.page[data-name="init"]', function (e) {
 
 $$("#search-flight-btn").on("click", function(){
 
+  showNylon();
 
-
-  app.preloader.show();
+  
         app.request.post("https://quickbookingng.com/skyscanner/live_flight_search.php", 
           {
             origin_place : window.localStorage.getItem("skyscanner_from_terminal"),
@@ -361,13 +456,14 @@ $$("#search-flight-btn").on("click", function(){
               console.log(receivedData);
               window.localStorage.setItem("server_deployment_results", receivedData);
               setTimeout(function(){
+                hideNylon();
                 mainView.router.navigate("/results/");
-                app.preloader.hide();
+                
               }, 4000);
 
                 
             }, function(xhr, status){
-                  app.preloader.hide();
+                  hideNylon();
                   app.dialog.alert("error in comms");
             });
 
@@ -375,7 +471,7 @@ $$("#search-flight-btn").on("click", function(){
 
     }, function(failData){
 
-        app.preloader.hide();
+        hideNylon();
         app.dialog.alert("Connection to the server failed.");
 
     });

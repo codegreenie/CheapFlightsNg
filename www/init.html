@@ -1,13 +1,22 @@
         <div class="page" data-name="init">
 
+          <div style="width: 100%; height: 100%; opacity: 0.9; position: absolute; background-color:#2f2f2f; z-index: 3000;" class="nylon"></div>
+            <div style="width: 100%; height: 100%; position: absolute; z-index: 4000; color: #fff;" class="nylon">
+                    <img src="imgs/boeing-4.png" style="max-width: 250px; margin:60% auto 0; display: block;">
+                    <br>
+                    <img src="imgs/spinner.gif" style="max-width: 100px; margin:1% auto 0; display: block;">
+                    
+                    <p class="text-white text-center" style="font-size: 16px;">Searching Airlines...Please Wait</p>
+            </div>
+
             <div class="navbar color-theme-orange">
                 <div class="navbar-inner">
                     <div class="left">
-                        <a href="#" class="link icon-only">
+                       <!--  <a href="#" class="link icon-only">
                             <i class="icon material-icons md-only">dehaze</i>
-                        </a>
+                        </a> -->
                     </div>
-                    <div class="title">Tickets</div>
+                    <div class="title">Quick Booking</div>
                     <div class="right">
                         <a href="/searchpanel/" class="link icon-only">
                             <i class="icon material-icons md-only">search</i>
@@ -49,8 +58,13 @@
 
 
                 <div class="block bg-color-orange" style="padding: 10px 0px; margin-bottom:0px !important;">
-                  <h4 class="text-center text-white">Round Trip
-                      <input type="checkbox" name="demo-checkbox" value="Books" checked="checked"/>
+                  <h4 class="text-center text-white">Round Trip&nbsp;
+                      <label class="radio"><input type="radio" name="trip_type" value="round_trip" checked><i class="icon-radio"></i></label>
+
+                        &nbsp;&nbsp;&nbsp;
+
+                      One Way&nbsp;
+                      <label class="radio"><input type="radio" name="trip_type" value="one_way"><i class="icon-radio"></i></label>
           
                   </h4>
 
@@ -63,16 +77,16 @@
                       <div class="block">
                       <span>Departure Date</span>
                       <br>
-                      <strong id="departure-date">Tue Nov 20 2018</strong>
-                      <input type="hidden" id="hidden-departure-date" value="2018-11-20">
+                      <strong id="departure-date">&nbsp;</strong>
+                      <input type="hidden" id="hidden-departure-date" value="">
                       </div>
                     </div>
-                    <div class="col">
-                      <div class="block">
+                    <div class="col" id="return-date-div">
+                      <div class="block" id="return-date-pack">
                       <span>Return Date</span>
                       <br>
-                      <strong id="arrival-date">Sun Nov 25 2018</strong>
-                      <input type="hidden" id="hidden-arrival-date" value="2018-11-25">
+                      <strong id="arrival-date">&nbsp;</strong>
+                      <input type="hidden" id="hidden-arrival-date" value="">
                       </div>
                     </div>
                   </div>
@@ -154,12 +168,12 @@
                    <div class="row">
                     <div class="col">
                       <div class="block">
-                      <button class="col button button-outline button-round color-white" id="economy-btn">Economy</button>
+                      <button class="col button button-outline button-round text-white" style="border:none;" id="economy-btn">Economy</button>
                       </div>
                     </div>
                     <div class="col">
                       <div class="block">
-                      <button class="col button button-outline button-round color-white" id="business-btn" style="border:none;">Business</button>
+                      <button class="col button button-outline button-round text-white" style="border:none;" id="business-btn">Business</button>
                       </div>
                     </div>
                   </div>

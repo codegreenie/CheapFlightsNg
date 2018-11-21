@@ -10,14 +10,23 @@
 	text-align: center;
 }
 .text-white{
-	color: #fff;
+	color: #fff !important;
 }
 .text-red{
 	color: #f44336 !important;
+}
+.text-blue{
+	color: #069 !important;
 }
 .sweet-bg{
 	background: -webkit-linear-gradient(0deg, #efa442 0%, #fce353 100%);
 }
 .text-right{
 	text-align: right;
+}
+.nylon, .nylons{
+    display: none;
+}
+.cabin-class-style{
+	 border : solid 2px #fff !important;
 }

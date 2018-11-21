@@ -7,7 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#2196f3">
   <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' 'unsafe-eval' data: gap:">
-  <title>Cheap Flights Nigeria</title>
+  <title>Quick Booking Nigeria</title>
   <link rel="stylesheet" href="css/framework7.min.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/app.css">
@@ -27,7 +27,8 @@
 
            <div class="page" data-name="main">
 
-           
+           <p id="a" style="color: #fff;"></p>
+           <p id="b" style="color: #fff;"></p>
               
 
            </div>
@@ -46,6 +47,46 @@
   <script src="js/framework7.min.js"></script>
   <script src="js/app.js"></script>
   <script>
+    
+
+    var today = new Date();
+    var todayYr = today.getFullYear();
+    var todayMth = today.getMonth();
+    var todayDay = today.getDate();
+
+    var date4departure = new Date(todayYr, todayMth, todayDay + 5);
+    $$("#a").text(date4departure);
+    var cutDepartureDate = $$("#a").text().substr(0, 16);
+
+    var date4arrival = new Date(todayYr, todayMth, todayDay + 15);
+    $$("#b").text(date4arrival);
+    var cutArrivalDate = $$("#b").text().substr(0, 16);
+
+
+    var miniMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    splitdsd = cutDepartureDate.split(" ");
+    var monthIndex;
+    for (var i = 0; i < miniMonths.length; i++) {
+         if(miniMonths[i] == splitdsd[1]){
+            monthIndex = i + 1;
+            break;
+         }
+    }
+    var joinDepartureDate = splitdsd[3] + "-" + monthIndex + "-" + splitdsd[2];
+
+
+
+    splitasd = cutArrivalDate.split(" ");
+    var monthIndex2;
+    for (var i = 0; i < miniMonths.length; i++) {
+         if(miniMonths[i] == splitasd[1]){
+            monthIndex2 = i + 1;
+            break;
+         }
+    }
+    var joinArrivalDate = splitasd[3] + "-" + monthIndex2 + "-" + splitasd[2];
+   
 
     if (!localStorage.getItem("from_terminal") || !localStorage.getItem("to_terminal") || !localStorage.getItem("flight_class")) {
 
@@ -57,12 +98,16 @@
       localStorage.setItem("infant_passenger_count", "0");
       localStorage.setItem("skyscanner_from_terminal", "LOS");
       localStorage.setItem("skyscanner_to_terminal", "ABV");
+      localStorage.setItem("departure_date_string", cutDepartureDate);
+      localStorage.setItem("arrival_date_string", cutArrivalDate);
+      localStorage.setItem("hidden_departure_date", joinDepartureDate);
+      localStorage.setItem("hidden_arrival_date", joinArrivalDate);
 
     }
 
     setTimeout(function(){
       mainView.router.navigate("/init/");
-    },500);
+    },800);
     
 
   </script>
